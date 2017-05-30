@@ -9,13 +9,16 @@ namespace FTP_IP_UPDATE
 {
     public static class Library
     {
+        // Write to text file, an exception
         public static void WriteErrorLog(SystemException ex)
         {
             StreamWriter sw = null;
             try
             {
+                // get value from application config
                 sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\Logfile.txt", true);
                 sw.WriteLine(DateTime.Now.ToString() + ": " + ex.Message.ToString().Trim());
+                // flush and close stream reader
                 sw.Flush();
                 sw.Close();
             }
@@ -26,18 +29,22 @@ namespace FTP_IP_UPDATE
             }
             catch (SystemException e)
             {
+                // write any exception to both logs
                 WriteEventLog(e);
                 WriteErrorLog(e);
             }
         }
 
+        // Write to text file, information 
         public static void WriteErrorLog(string Message)
         {
             StreamWriter sw = null;
             try
             {
+                // get value from application config
                 sw = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + "\\Logfile.txt", true);
                 sw.WriteLine(DateTime.Now.ToString() + ": " + Message);
+                // flush and close stream reader
                 sw.Flush();
                 sw.Close();
             }
@@ -47,11 +54,14 @@ namespace FTP_IP_UPDATE
             }
             catch (SystemException e)
             {
+                // write any exception to both logs
                 WriteEventLog(e);
                 WriteErrorLog(e);
             }
         }
 
+        // overloaded methods for writing to event viewer
+        // First method to allow specific message type
         public static void WriteEventLog(string Message, EventLogEntryType type)
         {
             EventLog myLog = new EventLog();
@@ -59,6 +69,7 @@ namespace FTP_IP_UPDATE
             myLog.WriteEntry(Message, type);
         }
 
+        // Second method, system exception
         public static void WriteEventLog(SystemException ex)
         {
             EventLog myLog = new EventLog();
@@ -66,6 +77,7 @@ namespace FTP_IP_UPDATE
             myLog.WriteEntry(ex.Message, EventLogEntryType.Error);
         }
 
+        // Third method, UnauthorizedAccessException
         public static void WriteEventLog(UnauthorizedAccessException ex)
         {
             EventLog myLog = new EventLog();
@@ -75,13 +87,15 @@ namespace FTP_IP_UPDATE
         
 
 
-
+        // Entry point method 
         public static void UpdateIIS()
         {
+            // if return values of GetPubIP(), GetIISIP() do NOT match, fetch public IP and Commit change to system.applicationHost XML file
             if (!IsIPNew(GetPubIP(), GetIISIP()))
             {
                 using (ServerManager serverManager = new ServerManager())
                 {
+                    // create Element Collection and grab site name from application config 
                     Configuration config = serverManager.GetApplicationHostConfiguration();
                     ConfigurationSection sitesSection = config.GetSection("system.applicationHost/sites");
                     ConfigurationElementCollection sitesCollection = sitesSection.GetCollection();
@@ -97,9 +111,11 @@ namespace FTP_IP_UPDATE
                         WriteEventLog(e);
                         WriteErrorLog(e);
                     }
+                    // Select firewallSupportElement attribute -> replace this value with the return value supplied by funcation GetPubIP()
                     ConfigurationElement ftpServerElement = siteElement.GetChildElement("ftpServer");
                     ConfigurationElement firewallSupportElement = ftpServerElement.GetChildElement("firewallSupport");
                     firewallSupportElement["externalIp4Address"] = GetPubIP();
+                    // Commit 
                     serverManager.CommitChanges();
 
                     WriteErrorLog("Public IP change. Updating IIS with new IP: " + GetIISIP());
@@ -113,16 +129,19 @@ namespace FTP_IP_UPDATE
             }
         }
 
-
+        // return HTML from remote server and extract IP address from file
         public static string GetPubIP()
         {
             try
             {
+                // Endpoint selected (this needs working on as the HTML search would break if the data were arbitrary)
                 string address = System.Configuration.ConfigurationManager.AppSettings["WebAddressEndpoint"];
+                // Web Request 
                 WebRequest request = WebRequest.Create(address);
                 using (WebResponse response = request.GetResponse())
                 using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                 {
+                    // Fill address with char stream from Web Address
                     address = stream.ReadToEnd();
                 }
 
@@ -130,6 +149,7 @@ namespace FTP_IP_UPDATE
                 int first = address.IndexOf("Address: ") + 9;
                 int last = address.LastIndexOf("");
                 address = address.Substring(first, last - first - 15);
+                // return public IP as String
                 return address;
             }
             catch (System.Configuration.ConfigurationErrorsException e)
@@ -149,16 +169,20 @@ namespace FTP_IP_UPDATE
 
         }
 
+        // Function to extract currently set IP address from IIS server
         public static string GetIISIP()
         {
-
+            // init new server manager object
             ServerManager serverManager = new ServerManager();
+            // selection application host / sites config
             Configuration config = serverManager.GetApplicationHostConfiguration();
             ConfigurationSection sitesSection = config.GetSection("system.applicationHost/sites");
             ConfigurationElementCollection sitesCollection = sitesSection.GetCollection();
 
+            // get site name from application config
             string FTPSiteName = System.Configuration.ConfigurationManager.AppSettings["FTPSiteName"];
 
+            // using above information, search for XML element 
             ConfigurationElement siteElement = FindElement(sitesCollection, "site", "name", FTPSiteName);
             try
             {
@@ -171,14 +195,16 @@ namespace FTP_IP_UPDATE
             }
             ConfigurationElement ftpServerElement = siteElement.GetChildElement("ftpServer");
 
+            // now get IP Address from externalIp4Address Attribute
             ConfigurationElement firewallSupportElement = ftpServerElement.GetChildElement("firewallSupport");
             string iis_ip = (string)firewallSupportElement.Attributes["externalIp4Address"].Value;
+            // return internal IP as string
             return iis_ip;
         }
             
 
 
-
+        // finder function from element traversal
         public static ConfigurationElement FindElement(ConfigurationElementCollection collection, string elementTagName, params string[] keyValues)
         {
             foreach (ConfigurationElement element in collection)
@@ -209,6 +235,8 @@ namespace FTP_IP_UPDATE
             return null;
         }
 
+
+        // compare strings, return false if different 
         public static bool IsIPNew(string GetPubIP, string GetIISIP)
         {
             bool result = GetPubIP.Equals(GetIISIP, StringComparison.Ordinal);

@@ -23,20 +23,23 @@ namespace FTP_IP_UPDATE
                 //An event log source should not be created and immediately used.
                 //There is a latency time to enable the source, it should be created
                 //prior to executing the application that uses the source.
-                //Execute this sample a second time to use the new source.
                 EventLog.CreateEventSource("FTP Update Tool", "XENET");
             }
 
         }
 
-
+        
         protected override void OnStart(string[] args)
         {
+            // Send start message to text log and event viewer 
             Library.WriteErrorLog("IP Update Service Started");
             Library.WriteEventLog("IP Update Service Started", EventLogEntryType.Information);
+            // init timer
             timer1 = new Timer();
 
+            // Set service update rate initially to zero, later on use value set in application config to define this value
             float ServiceUpdateRate = 0;
+            // Check values in application config are true
             if (System.Configuration.ConfigurationManager.AppSettings["ServiceUpdateRate"] == "")
             {
                 ServiceUpdateRate = 5;
@@ -51,20 +54,24 @@ namespace FTP_IP_UPDATE
             }
             else
             {
+                // No issue, parse update rate value
                 ServiceUpdateRate = float.Parse(System.Configuration.ConfigurationManager.AppSettings["ServiceUpdateRate"]);
             }
 
+            // setup service timer loop, multiply value by 60000(ms)
             this.timer1.Interval = ServiceUpdateRate * 60000;
             this.timer1.Elapsed += new System.Timers.ElapsedEventHandler(this.timer1_tick);
+            // start timer
             timer1.Enabled = true;
         }
 
+        // Each timer tick -> run Update method 
         private void timer1_tick(object sender, ElapsedEventArgs e)
         {
             Library.UpdateIIS();
         }
 
-
+        // Send to text file and even viewer service stop
         protected override void OnStop()
         {
             Library.WriteErrorLog("IP Update Service Stopped <--!");
