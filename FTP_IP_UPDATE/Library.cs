@@ -151,7 +151,7 @@ namespace FTP_IP_UPDATE
                     //    IPChicken.com         //
                     //    icanhazip.com         // 
                     //    checkip.dyndns.org    //
-                    // AVOID USING ANY PAGE WITH MORE THAN ONE ADDRESS AS WE ALWAYS EXPECT ONLY ONE OBJECT IN ELEMENT!!
+                    // AVOID USING ANY PAGE WITH MORE THAN ONE ADDRESS AS WE ALWAYS EXPECT ONLY ONE OBJECT IN COLLECTION!!
                     IPList.Add(Regex.Match(address, @"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b"));
                     IP = IPList[0].ToString();
                     return IP;
