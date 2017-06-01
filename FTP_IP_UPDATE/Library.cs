@@ -3,6 +3,8 @@ using System.IO;
 using Microsoft.Web.Administration;
 using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 
 namespace FTP_IP_UPDATE
@@ -134,23 +136,27 @@ namespace FTP_IP_UPDATE
         {
             try
             {
-                // Endpoint selected (this needs working on as the HTML search would break if the data were arbitrary)
+                string IP = "";
+                List<System.Text.RegularExpressions.Match> IPList = new List<System.Text.RegularExpressions.Match>();
                 string address = System.Configuration.ConfigurationManager.AppSettings["WebAddressEndpoint"];
                 // Web Request 
                 WebRequest request = WebRequest.Create(address);
                 using (WebResponse response = request.GetResponse())
                 using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                 {
-                    // Fill address with char stream from Web Address
+                    // Fill address with entire HTML page as a char stream
                     address = stream.ReadToEnd();
+                    // Regular Expression to find the IP address in char stream ---->
+                    // This should now work with many services that return the public IP such as:
+                    //    IPChicken.com         //
+                    //    icanhazip.com         // 
+                    //    checkip.dyndns.org    //
+                    // AVOID USING ANY PAGE WITH MORE THAN ONE ADDRESS AS WE ALWAYS EXPECT ONLY ONE OBJECT IN ELEMENT!!
+                    IPList.Add(Regex.Match(address, @"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b"));
+                    IP = IPList[0].ToString();
+                    return IP;
                 }
 
-                //Search for the ip in the html
-                int first = address.IndexOf("Address: ") + 9;
-                int last = address.LastIndexOf("");
-                address = address.Substring(first, last - first - 15);
-                // return public IP as String
-                return address;
             }
             catch (System.Configuration.ConfigurationErrorsException e)
             {
