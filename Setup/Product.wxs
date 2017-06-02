@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Name="FTP IP Update Tool"
+  <Product Name="FTP Update Tool"
            Id="*"
            UpgradeCode="{F37C7DF0-5621-4F0A-BA64-6CF9F55F1AEE}"
            Manufacturer="Daniel Gibbs"
