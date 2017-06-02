@@ -138,7 +138,7 @@ namespace FTP_IP_UPDATE
             {
                 string IP = "";
                 List<System.Text.RegularExpressions.Match> IPList = new List<System.Text.RegularExpressions.Match>();
-                string address = System.Configuration.ConfigurationManager.AppSettings["WebAddressEndpoint"];
+                string address = System.Configuration.ConfigurationManager.AppSettings["WebAddressURL"];
                 // Web Request 
                 WebRequest request = WebRequest.Create(address);
                 using (WebResponse response = request.GetResponse())
@@ -154,7 +154,15 @@ namespace FTP_IP_UPDATE
                     // AVOID USING ANY PAGE WITH MORE THAN ONE ADDRESS AS WE ALWAYS EXPECT ONLY ONE OBJECT IN COLLECTION!!
                     IPList.Add(Regex.Match(address, @"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b"));
                     IP = IPList[0].ToString();
-                    return IP;
+
+                    if (IP == null || IP == "")
+                    {
+                        Library.WriteErrorLog("WebAddressURL does not contain an IP address. Operation failed!");
+                        Library.WriteEventLog("WebAddressURL does not contain an IP address. Operation failed!", EventLogEntryType.Error);
+                        return null;
+                    }
+                    else
+                        return IP;
                 }
 
             }
