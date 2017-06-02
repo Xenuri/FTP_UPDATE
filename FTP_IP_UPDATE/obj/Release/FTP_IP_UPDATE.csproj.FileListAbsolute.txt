@@ -11,4 +11,3 @@ C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\Up
 C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.application
 C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.exe
 C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.pdb
-C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\FTP_IP_UPDATE.csprojResolveAssemblyReference.cache
