@@ -1,0 +1,14 @@
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\UpdateTool.exe.config
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\UpdateTool.exe.manifest
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\UpdateTool.application
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\UpdateTool.exe
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\UpdateTool.pdb
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\Microsoft.Web.Administration.dll
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\bin\Release\System.Management.Automation.dll
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\FTP_IP_UPDATE.ProjectInstaller.resources
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\FTP_IP_UPDATE.csproj.GenerateResource.Cache
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.exe.manifest
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.application
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.exe
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\UpdateTool.pdb
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\FTP_IP_UPDATE\obj\Release\FTP_IP_UPDATE.csprojResolveAssemblyReference.cache
