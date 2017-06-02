@@ -1,0 +1,2 @@
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\Setup\bin\Release\Setup.msi
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\Setup\bin\Release\Setup.wixpdb

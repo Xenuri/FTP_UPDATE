@@ -1,0 +1,6 @@
+obj\Release\Product.wixobj
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\Setup\bin\Release\Setup.msi
+C:\Users\nfdg\Dropbox\Dan's Files\GitHub\FTP_UPDATE\Setup\bin\Release\Setup.wixpdb
+obj\Release\Setup.wixproj.BindContentsFileListnull.txt
+obj\Release\Setup.wixproj.BindOutputsFileListnull.txt
+obj\Release\Setup.wixproj.BindBuiltOutputsFileListnull.txt

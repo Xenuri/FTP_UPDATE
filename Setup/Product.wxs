@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Name="FTP IP Update Tool"
+           Id="*"
+           UpgradeCode="{F37C7DF0-5621-4F0A-BA64-6CF9F55F1AEE}"
+           Manufacturer="Daniel Gibbs"
+           Version="!(bind.FileVersion.UpdateTool.exe)"
+           Language="1033">
+    <Package InstallerVersion="200"
+             Compressed="yes" />
+    <Media Id="1"
+           Cabinet="media1.cab"
+           EmbedCab="yes" />
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="APPLICATIONROOTDIRECTORY" Name="UpdateTool">
+            <Component Id="MyCompany.MyProduct"
+                       Guid="{F37C7DF0-5621-4F0A-BA64-6CF9F55F1AEE}">
+              <File Id="UpdateTool.exe"
+                    Name="UpdateTool.exe"
+                    Source="..\FTP_IP_UPDATE\bin\Release\UpdateTool.exe"
+                    Vital="yes"
+                    KeyPath="yes"
+                    DiskId="1" />
+              <File Id="UpdateTool.exe.config"
+                    Name="UpdateTool.exe.config"
+                    Source="..\FTP_IP_UPDATE\bin\Release\UpdateTool.exe.config"
+                    Vital="yes"
+                    KeyPath="no"
+                    DiskId="1" />
+              <ServiceInstall Id="ServiceInstaller"
+                              Type="ownProcess"
+                              Vital="yes"
+                              Name="UpdateTool"
+                              DisplayName="FTP Update Tool"
+                              Description="Updates External IP Address field in IIS 7 and above with latest public IP for users with a dynamic IP address."
+                              Start="auto"
+                              Account="LocalSystem"
+                              ErrorControl="ignore"
+                              Interactive="no" />
+              <ServiceControl Id="StartService"
+                              Start="install"
+                              Stop="both"
+                              Remove="uninstall"
+                              Name="UpdateTool"
+                              Wait="yes" />
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    <Feature Id="ProductFeature"
+             Title="FTP Update Tool"
+             Level="1">
+      <ComponentRef Id="MyCompany.MyProduct" />
+    </Feature>
+  </Product>
+</Wix>
